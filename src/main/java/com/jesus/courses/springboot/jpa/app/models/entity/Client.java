@@ -23,6 +23,13 @@ public class Client implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /*
+        Para personalizar el mensaje del error hay que crear una
+        properties y agregar lo siguiente
+        NotEmpty.client.name=
+        Eso se transforma a
+        decorador.nombreDelaClaseEnMinúscula.nombreDelAtributo
+     */
     @NotEmpty // Validar que no se inserte vacío
     @Size(min = 4, max = 12)
     private String name;
