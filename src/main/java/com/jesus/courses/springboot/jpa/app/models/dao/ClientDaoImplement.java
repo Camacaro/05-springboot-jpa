@@ -42,13 +42,13 @@ public class ClientDaoImplement implements IClientDao {
      */
     @Override
     @SuppressWarnings("unchecked")
-    @Transactional(readOnly = true)
+    // @Transactional(readOnly = true) // Se movió a ClientServiceImplement
     public List<Client> findAll() {
         return em.createQuery("from Client ").getResultList();
     }
 
     @Override
-    @Transactional
+//    @Transactional // Se movió a ClientServiceImplement
     public void save(Client client) {
         if (client.getId() != null && client.getId() > 0) {
             em.merge(client); // Actualiza los datos del cliente
@@ -63,7 +63,6 @@ public class ClientDaoImplement implements IClientDao {
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
         Client client = findOne(id);
         em.remove(client);

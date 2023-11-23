@@ -1,10 +1,9 @@
 package com.jesus.courses.springboot.jpa.app.controllers;
 
-import com.jesus.courses.springboot.jpa.app.models.dao.IClientDao;
 import com.jesus.courses.springboot.jpa.app.models.entity.Client;
+import com.jesus.courses.springboot.jpa.app.service.IClientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,17 +15,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("client")
 public class ClientController {
 
-    private final IClientDao clientDao;
+    /*
+    Dejamos de usar DAO para implementar service, un patron de Facade
+     */
+//    private final IClientDao clientDao;
+
+//    @Autowired
+//    public ClientController(@Qualifier("clientDaoImplement") IClientDao clientDao) {
+//        this.clientDao = clientDao;
+//    }
+
+    private final IClientService clientService;
 
     @Autowired
-    public ClientController(@Qualifier("clientDaoImplement") IClientDao clientDao) {
-        this.clientDao = clientDao;
+    public ClientController(IClientService clientService) {
+        this.clientService = clientService;
     }
 
     @RequestMapping(value="list", method=RequestMethod.GET)
     public String clientList(Model model) {
         model.addAttribute("title", "Listado de clientes");
-        model.addAttribute("clients", clientDao.findAll());
+        model.addAttribute("clients", clientService.findAll());
         return "client/list";
     }
 
@@ -60,7 +69,7 @@ public class ClientController {
             model.addAttribute("title", "Formulario de cliente");
             return "client/form";
         }
-        clientDao.save(client);
+        clientService.save(client);
         return "redirect:list";
     }
 
@@ -68,7 +77,7 @@ public class ClientController {
     public String clientEdit(@PathVariable(value = "id") Long id, Model model) {
         Client client = null;
         if (id>0) {
-            client = clientDao.findOne(id);
+            client = clientService.findOne(id);
         } else {
             return "redirect:list";
         }
@@ -80,7 +89,7 @@ public class ClientController {
     @RequestMapping(value="/delete/{id}")
     public String clientEdit(@PathVariable(value = "id") Long id) {
         if (id>0) {
-            clientDao.delete(id);
+            clientService.delete(id);
         }
         return "redirect:/client/list";
     }
