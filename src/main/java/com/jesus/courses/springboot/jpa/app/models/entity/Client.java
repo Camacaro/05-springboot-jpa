@@ -1,6 +1,7 @@
 package com.jesus.courses.springboot.jpa.app.models.entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -31,6 +32,7 @@ public class Client implements Serializable {
 
     @Column(name = "create_at")
     @Temporal(TemporalType.DATE) // Formato en como se va a guardar la fecha en la db
+    @DateTimeFormat(pattern = "yyy-MM-dd") // Formato de como quiero que se guarde
     private Date createAt;
 
     public void setId(Long id) {
@@ -75,9 +77,10 @@ public class Client implements Serializable {
 
     /*
         Insertar la fecha, justo antes de guardar en la db
+        de manera automática
      */
-    @PrePersist
-    public void prePersist() {
-        createAt = new Date();
-    }
+//    @PrePersist
+//    public void prePersist() {
+//        createAt = new Date();
+//    }
 }
