@@ -50,7 +50,13 @@
             <a th:href="@{/client/form/} + ${client.id}" th:text="'Editar'"
                class="btn btn-primary btn-xs"
             >
-
+            </a>
+          </td>
+          <td>
+            <a th:href="@{/client/delete/} + ${client.id}" th:text="'Eliminar'"
+               class="btn btn-danger btn-xs"
+               onclick="return confirm('Estas seguro de eliminar?')"
+            >
             </a>
           </td>
         </tr>

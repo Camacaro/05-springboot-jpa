@@ -76,4 +76,12 @@ public class ClientController {
         model.addAttribute("title", "Formulario de cliente");
         return "client/form";
     }
+
+    @RequestMapping(value="/delete/{id}")
+    public String clientEdit(@PathVariable(value = "id") Long id) {
+        if (id>0) {
+            clientDao.delete(id);
+        }
+        return "redirect:/client/list";
+    }
 }
