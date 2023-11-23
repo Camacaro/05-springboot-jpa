@@ -1,6 +1,10 @@
 package com.jesus.courses.springboot.jpa.app.models.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -19,8 +23,13 @@ public class Client implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty // Validar que no se inserte vacío
+    @Size(min = 4, max = 12)
     private String name;
+
+    @NotEmpty // Validar que no se inserte vacío
     private String lastname;
+
 
     /*
       especificar el nombre de la tabla si no quisiera email
@@ -28,11 +37,14 @@ public class Client implements Serializable {
       si es null, length
      */
     // @Column(name = "email_client")
+    @NotEmpty
+    @Email
     private String email;
 
     @Column(name = "create_at")
     @Temporal(TemporalType.DATE) // Formato en como se va a guardar la fecha en la db
-    @DateTimeFormat(pattern = "yyy-MM-dd") // Formato de como quiero que se guarde
+    @DateTimeFormat(pattern = "yyyy-MM-dd") // Formato de como quiero que se guarde
+    @NotNull
     private Date createAt;
 
     public void setId(Long id) {

@@ -2,10 +2,12 @@ package com.jesus.courses.springboot.jpa.app.controllers;
 
 import com.jesus.courses.springboot.jpa.app.models.dao.IClientDao;
 import com.jesus.courses.springboot.jpa.app.models.entity.Client;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("client")
 public class ClientController {
 
-    private IClientDao clientDao;
+    private final IClientDao clientDao;
 
     @Autowired
     public ClientController(@Qualifier("clientDaoImplement") IClientDao clientDao) {
@@ -35,8 +37,28 @@ public class ClientController {
         return "client/form";
     }
 
+    /*
+        Con la anotación @Valid le decimos que valide los campos que se agregaron
+        en entity/Client
+        Se tiene que usar de esta forma @Valid Client client, BindingResult result
+     */
     @RequestMapping(value="/form", method = RequestMethod.POST)
-    public String clientForm(Client client) {
+    public String clientForm(@Valid Client client, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            /*
+               Le agregamos el @ModelAttribute al parámetro para indicar que ese objeto
+               lo tiene que devolver a la vista como es client el nombre y es el que
+               espera la vista estamos ok, pero si fuera otro lo definimos
+               @ModelAttribute("otroNombre")
+
+               Pero no hace falta agregar el @ModelAttribute, ya que se llama igual
+               a como se recibe en la vista "client"
+
+               si no va de este modo @ModelAttribute @Valid Client client
+             */
+            model.addAttribute("title", "Formulario de cliente");
+            return "client/form";
+        }
         clientDao.save(client);
         return "redirect:list";
     }
