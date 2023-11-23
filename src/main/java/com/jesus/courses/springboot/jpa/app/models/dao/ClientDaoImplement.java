@@ -50,8 +50,15 @@ public class ClientDaoImplement implements IClientDao {
     @Override
     @Transactional
     public void save(Client client) {
-        em.persist(client);
+        if (client.getId() != null && client.getId() > 0) {
+            em.merge(client); // Actualiza los datos del cliente
+        } else {
+            em.persist(client); // Crea uno nuevo
+        }
     }
 
-
+    @Override
+    public Client findOne(Long id) {
+        return em.find(Client.class, id);
+    }
 }
