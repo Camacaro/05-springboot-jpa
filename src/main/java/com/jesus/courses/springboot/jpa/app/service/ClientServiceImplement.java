@@ -1,6 +1,7 @@
 package com.jesus.courses.springboot.jpa.app.service;
 
 import com.jesus.courses.springboot.jpa.app.models.dao.IClientDao;
+import com.jesus.courses.springboot.jpa.app.models.dao.IClientDaoCrudRepository;
 import com.jesus.courses.springboot.jpa.app.models.entity.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public class ClientServiceImplement implements IClientService {
 
     @Autowired
     private IClientDao clientDao;
+
+    // private IClientDaoCrudRepository clientDao;
 
     @Override
     @Transactional(readOnly = true)
