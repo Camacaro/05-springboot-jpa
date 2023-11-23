@@ -72,4 +72,12 @@ public class Client implements Serializable {
     public void setCreateAt(Date createAt) {
         this.createAt = createAt;
     }
+
+    /*
+        Insertar la fecha, justo antes de guardar en la db
+     */
+    @PrePersist
+    public void prePersist() {
+        createAt = new Date();
+    }
 }
