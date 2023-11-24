@@ -54,6 +54,8 @@ public class Client implements Serializable {
     @NotNull
     private Date createAt;
 
+    private String photo;
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -102,4 +104,13 @@ public class Client implements Serializable {
 //    public void prePersist() {
 //        createAt = new Date();
 //    }
+
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 }
